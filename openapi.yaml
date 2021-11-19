@@ -1,0 +1,145 @@
+openapi: 3.0.3
+info:
+  description: "This is the API that GMAH third-parties need to implement in order to communicate with our services."
+  version: "1.0.0"
+  title: "GiveMeAHotel.com third-party integration API"
+  contact:
+    email: "loic@arise.travel"
+servers:
+  - url: "http://localhost:8080/"
+    description: "Local development server"
+paths:
+  /inventory:
+    get:
+      tags:
+      - Inventy
+      summary: Get the list of all onboarded hotels
+      responses:
+        200:
+          description: List of all onboarded hotels
+          content:
+            application/json:
+              schema:
+                type: array
+                items: 
+                  $ref: '#/components/schemas/Hotel'
+  /availabilities:
+    post:
+      tags:
+      - Availability
+      summary: Get available rooms for a given query
+      parameters:
+      - name: hotel_ids
+        in: query
+        description: Comma separated list of country codes.
+        required: true
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/Hotel/properties/country'
+        examples:
+          single-country:
+            value: [FR]
+          multiple-countries:
+            value: [PL, GB]
+      - name: check_in
+        in: query
+        description: Check-in date
+        required: true
+        schema:
+          type: string
+          format: date
+      - name: check_out
+        in: query
+        description: Check-out date
+        required: true
+        schema:
+          type: string
+          format: date
+      - name: adults
+        in: query
+        description: Number of adults
+        required: true
+        schema:
+          type: integer
+          minimum: 1
+      - name: children
+        in: query
+        description: Comma separated list of children ages, if any
+        required: false
+        schema:
+          type: array
+          items:
+            type: integer
+            minimum: 0
+            maximum: 18
+      responses:
+        200:
+          description: List of available rooms
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    hotel_id:
+                      $ref: '#/components/schemas/Hotel/properties/id'
+                    rooms:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/RoomType'
+components:
+  schemas:
+    Hotel:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        url:
+          type: string
+          format: url
+        photos:
+          type: array
+          items:
+            type: string
+            format: url
+        country:
+          type: string
+          format: '^[A-Z]{2}'
+      required:
+        - id
+        - name
+    RoomType:
+      type: object
+      properties:
+        room_name:
+          type: string
+        description:
+          type: string
+        photos:
+          type: array
+          items:
+            type: string
+            format: url
+        price:
+          $ref: '#/components/schemas/Price'
+      required:
+        - room_name
+        - description
+    Price:
+      type: object
+      properties:
+        currency:
+          type: string
+          enum: [EUR, USD, GBP, PLN]
+        amount:
+          type: number
+          format: float
+          minimum: 0
+      required:
+        - currency
+        - amount
