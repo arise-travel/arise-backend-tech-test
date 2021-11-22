@@ -5,7 +5,7 @@ and fast-learning individual to join our team.
 This technical test is designed to assess your technical skills and ability to
 work with :
 
-- Node.js and TypeScript
+- Node.js and JavaScript/TypeScript
 - GraphQL endpoints
 - Docker
 - Third-party APIs
