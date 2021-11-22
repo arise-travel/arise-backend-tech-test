@@ -9,49 +9,30 @@ servers:
   - url: "http://localhost:8080/"
     description: "Local development server"
 paths:
-  /inventory:
-    get:
-      tags:
-      - Inventy
-      summary: Get the list of all onboarded hotels
-      responses:
-        200:
-          description: List of all onboarded hotels
-          content:
-            application/json:
-              schema:
-                type: array
-                items: 
-                  $ref: '#/components/schemas/Hotel'
   /availabilities:
-    post:
+    get:
       tags:
       - Availability
       summary: Get available rooms for a given query
       parameters:
-      - name: hotel_ids
+      - name: hotel_id
         in: query
-        description: Comma separated list of country codes.
+        description: Comma separated list of Hotel GMAH's ID
         required: true
         schema:
           type: array
           items:
-            $ref: '#/components/schemas/Hotel/properties/country'
-        examples:
-          single-country:
-            value: [FR]
-          multiple-countries:
-            value: [PL, GB]
+            $ref: '#/components/schemas/Hotel/properties/partner_ref'
       - name: check_in
         in: query
-        description: Check-in date
+        description: Check-in date (YYYY-MM-DD)
         required: true
         schema:
           type: string
           format: date
       - name: check_out
         in: query
-        description: Check-out date
+        description: Check-out date (YYYY-MM-DD)
         required: true
         schema:
           type: string
@@ -72,7 +53,7 @@ paths:
           items:
             type: integer
             minimum: 0
-            maximum: 18
+            maximum: 17
       responses:
         200:
           description: List of available rooms
@@ -83,12 +64,89 @@ paths:
                 items:
                   type: object
                   properties:
-                    hotel_id:
-                      $ref: '#/components/schemas/Hotel/properties/id'
+                    hotel:
+                      $ref: '#/components/schemas/Hotel'
                     rooms:
                       type: array
                       items:
                         $ref: '#/components/schemas/RoomType'
+        500:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnexpectedError'
+  /booking:
+    post:
+      tags:
+      - Booking
+      summary: Submits a new booking
+      requestBody:
+        description: Breakdown of the booking request
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                hotel_partner_ref:
+                  $ref: '#/components/schemas/Hotel/properties/partner_ref'
+                room_type_partner_ref:
+                  description: Partner reference of the Room Type being booked
+                  type: string
+                primary_contact:
+                  type: object
+                  properties:
+                    first_name:
+                      type: string
+                    last_name:
+                      type: string
+                    address_lines:
+                      type: array
+                      items:
+                        type: string
+                  required:
+                  - first_name
+                  - last_name
+                adults:
+                  type: integer
+                  minimum: 1
+                children:
+                  type: array
+                  items:
+                    type: integer
+                    minimum: 0
+                    maximum: 17
+                price:
+                  $ref: '#/components/schemas/Price'
+      responses:
+        200:
+          description: List of available rooms
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    hotel:
+                      $ref: '#/components/schemas/Hotel'
+                    rooms:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/RoomType'
+        400:
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+        500:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnexpectedError'
 components:
   schemas:
     Hotel:
@@ -96,7 +154,9 @@ components:
       properties:
         id:
           type: string
-          format: uuid
+        partner_ref:
+          type: string
+          description: "The identifier used to reference the hotel on the partner systems"
         name:
           type: string
         url:
@@ -116,6 +176,9 @@ components:
     RoomType:
       type: object
       properties:
+        partner_reference:
+          description: "The identifier used to reference the room type on the partner systems"
+          type: string
         room_name:
           type: string
         description:
@@ -143,3 +206,27 @@ components:
       required:
         - currency
         - amount
+    UnexpectedError:
+      type: object
+      properties:
+        error:
+          type: string
+      required:
+      - error
+    ValidationError:
+      allOf:
+      - $ref: '#/components/schemas/UnexpectedError'
+      - type: object
+        properties:
+          validation:
+            type: object
+            properties:
+              path:
+                type: string
+                description: Path of the JSON request that failed validation
+              errors:
+                type: array
+                items:
+                  type: string
+            required:
+            - errors
