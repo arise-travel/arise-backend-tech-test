@@ -7,6 +7,7 @@ work with :
 
 - Node.js and TypeScript
 - GraphQL endpoints
+- Docker
 - Third-party APIs
 
 You may use all the time you need to complete this test, but you will be expected
@@ -47,9 +48,10 @@ queries and mutates the network states in a convenient interface. For this test,
 we created a light version of that schema, with an on-memory database. Mutations
 won't be effectful but will behave as if they have successfully saved the data.
 
-The GraphQL endpoint you're going to use is hosted at
-<https://backend-tech-test.staging.arise.travel>. You can use the built-in
-[Altair IDE](https://backend-tech-test.staging.arise.travel/altair) to quickly
+The GraphQL endpoint you're going to use is is packaged into a Docker image :
+**` ghcr.io/arise-travel/arise-backend-test-graphql-server:latest`**.  The server
+is exposed on the port **4000**. You can use the built-in
+[Altair IDE](http://localhost:4000/altair) to quickly
 interact with it.
 
 The GraphQL schema is self documented. We recommend using
@@ -67,6 +69,9 @@ You are required to **setup a Node.js server** that will serve your implementati
 of the API. You are free to use any framework/module in the Node.js ecosystem.
 Your final submission will be judged with the level of expectation of any code
 going to a _production environement_.
+
+For development purposes, **create a Docker Compose local deployment** that packages
+both the provided GraphQL server and your implementation of the API.
 
 Extra points will be awarded for :
 
