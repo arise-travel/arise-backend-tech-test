@@ -10,10 +10,15 @@ work with :
 - Docker
 - Third-party APIs
 
-You may use all the time you need to complete this test, but you will be expected
-to complete it within 4 hours.
-Complete as much as you can during that time window. You will be judged against
-the quality of your implementation and your ability to communicate your ideas clearly and concisely.
+You may use all the time you need to complete this test, but we ask you to **plan
+your implementation** and write what you feel best demonstrate your skills within
+**60 to 90 minutes**.
+Complete as much as you can during that time. We will review your code during
+an interview where we will discuss about your design choices and the strategies
+you would have planned to implement the complete solution.
+
+**We do not expect you to fully complete that challenge within that time window**.
+Feel free to go further, but **keep a track of where you left at the given time limit**.
 
 > If you need any clarifications on the test, please contact Loïc Payol at <loic@arise.travel>
 
@@ -83,11 +88,13 @@ GRAPHQL_ENDPOINT=http://localhost:4000/graphql yarn start:dev
 > For some reason, the `yarn start:dev` command doesn't work inside Docker Compose,
 > so please use the following workflow until we find a better solution.
 
-Your final submission will be judged with the level of expectation of any code
-going to a _production environement_.
+**We do not require a full production ready implementation. Write code that you want
+to discuss over in a follow-up interview. Prepare what you think you'll need to achieve
+in order to make that project successful. Questions are welcomed during that review.**
 
-Extra points will be awarded for :
+Hovewer, if you choose to continue on the implementation, extra points will be awarded for :
 
+- Code quality
 - Network failure management/retry strategies
 - Proper validation of the input data
 - Correct usage of TypeScript
