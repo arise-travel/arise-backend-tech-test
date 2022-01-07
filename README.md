@@ -86,7 +86,7 @@ GRAPHQL_ENDPOINT=http://localhost:4000/graphql yarn start:dev
 ```
 
 > For some reason, the `yarn start:dev` command doesn't work inside Docker Compose,
-> so please use the following workflow until we find a better solution.
+> so please use the previous workflow until we find a better solution.
 
 **We do not require a full production ready implementation. Write code that you want
 to discuss over in a follow-up interview. Prepare what you think you'll need to
