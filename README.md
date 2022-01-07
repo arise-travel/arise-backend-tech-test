@@ -89,8 +89,9 @@ GRAPHQL_ENDPOINT=http://localhost:4000/graphql yarn start:dev
 > so please use the following workflow until we find a better solution.
 
 **We do not require a full production ready implementation. Write code that you want
-to discuss over in a follow-up interview. Prepare what you think you'll need to achieve
-in order to make that project successful. Questions are welcomed during that review.**
+to discuss over in a follow-up interview. Prepare what you think you'll need to
+achieve in order to make that project successful. Questions are welcomed during
+that review.**
 
 Hovewer, if you choose to continue on the implementation, extra points will be awarded for :
 
