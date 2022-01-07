@@ -10,6 +10,7 @@ export function startHttpServer(): typeof app {
 
   app.listen(config.httpPort, config.httpHost, () => {
     logger.info(`Server listening on ${config.httpHost}:${config.httpPort}`);
+    logger.info(`Docs available at http://localhost:${config.httpPort}/docs`);
   });
 
   return app;
