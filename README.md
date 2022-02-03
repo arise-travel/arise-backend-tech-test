@@ -18,7 +18,6 @@ an interview where we will discuss about your design choices and the strategies
 you would have planned to implement the complete solution.
 
 **We do not expect you to fully complete that challenge within that time window**.
-Feel free to go further, but **keep a track of where you left at the given time limit**.
 
 > If you need any clarifications on the test, please contact Loïc Payol at <loic@arise.travel>
 
@@ -93,18 +92,9 @@ to discuss over in a follow-up interview. Prepare what you think you'll need to
 achieve in order to make that project successful. Questions are welcomed during
 that review.**
 
-Hovewer, if you choose to continue on the implementation, extra points will be awarded for :
-
-- Code quality
-- Network failure management/retry strategies
-- Proper validation of the input data
-- Correct usage of TypeScript
-- Some form of authentication (Basic/JWT/...)
-
 ### Submitting your code
 
 Once you're done, publish your code on any open Git platform (GitHub, Gitlab, ...)
 and send us the link to your repository.
-Self-criticism on your submission is encouraged, but not required.
 
 **Good luck!**
