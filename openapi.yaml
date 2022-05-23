@@ -92,8 +92,7 @@ paths:
                 hotel_partner_ref:
                   $ref: '#/components/schemas/Hotel/properties/partner_ref'
                 room_type_partner_ref:
-                  description: Partner reference of the Room Type being booked
-                  type: string
+                  $ref: '#/components/schemas/RoomType/properties/partner_ref'
                 primary_contact:
                   type: object
                   properties:
@@ -121,20 +120,11 @@ paths:
                   $ref: '#/components/schemas/Price'
       responses:
         200:
-          description: List of available rooms
+          description: Reservation receipt from the partner system
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    hotel:
-                      $ref: '#/components/schemas/Hotel'
-                    rooms:
-                      type: array
-                      items:
-                        $ref: '#/components/schemas/RoomType'
+                $ref: '#/components/schemas/Reservation'
         400:
           description: Validation error
           content:
@@ -154,6 +144,7 @@ components:
       properties:
         id:
           type: string
+          description: "The identifier of the hotel on GMAH"
         partner_ref:
           type: string
           description: "The identifier used to reference the hotel on the partner systems"
@@ -172,11 +163,12 @@ components:
           format: '^[A-Z]{2}'
       required:
         - id
+        - partner_ref
         - name
     RoomType:
       type: object
       properties:
-        partner_reference:
+        partner_ref:
           description: "The identifier used to reference the room type on the partner systems"
           type: string
         room_name:
@@ -206,6 +198,33 @@ components:
       required:
         - currency
         - amount
+    Reservation:
+      type: object
+      properties:
+        partner_ref:
+          type: string
+          description: "The identifier used to reference the reservation on the partner systems"
+        hotel:
+          $ref: '#/components/schemas/Hotel'
+        start_date:
+          type: string
+          format: date
+        end_date:
+          type: string
+          format: date
+        traveler:
+          type: object
+          properties:
+            first_name:
+              type: string
+            last_name:
+              type: string
+            phone:
+              type: string
+            email:
+              type: string
+          required:
+            - first_name
     UnexpectedError:
       type: object
       properties:
